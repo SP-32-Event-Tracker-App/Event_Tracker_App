@@ -1,4 +1,7 @@
+import 'package:event_tracker_app/widgets/home_page.dart';
+import 'package:event_tracker_app/widgets/signup_page.dart';
 import 'package:flutter/material.dart';
+import '../controllers/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,8 +9,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final LoginController _loginController = LoginController();
   bool _obscureText = true;
   bool _rememberMe = false;
 
@@ -26,14 +30,14 @@ class _LoginPageState extends State<LoginPage> {
                   'assets/images/KSU-logo.jpg',
                   height: 260,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
                       labelText: 'abc@email.com',
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
                 ),
@@ -43,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: _obscureText,
                   decoration: InputDecoration(
                       labelText: 'Your password',
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(_obscureText
                             ? Icons.visibility
@@ -57,14 +61,23 @@ class _LoginPageState extends State<LoginPage> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      elevation: 3, minimumSize: Size(double.infinity, 50)),
+                      elevation: 3,
+                      minimumSize: const Size(double.infinity, 50)),
                   onPressed: () {
-                    _login();
+                    bool success = _loginController.login(
+                        _usernameController.text, _passwordController.text);
+
+                    if (success) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                    }
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -79,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -93,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                             splashRadius: 50.0,
                             onChanged: (value) =>
                                 setState(() => _rememberMe = value)),
-                        Text(
+                        const Text(
                           "Remember Me",
                           style: TextStyle(fontSize: 18),
                         ),
@@ -104,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                         // Handle "Forgot Password" action
                         print("Forgot Password");
                       },
-                      child: Text(
+                      child: const Text(
                         "Forgot Password?",
                         style: TextStyle(
                           color: Colors.blue,
@@ -114,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -128,11 +141,11 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account? ",
                       style: TextStyle(
                         fontSize: 20,
@@ -141,9 +154,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        print("Sign Up");
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignupPage()));
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign up",
                         style: TextStyle(
                           color: Colors.blue,
@@ -159,19 +175,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void _login() {
-    // For simplicity, check hardcoded credentials.
-    String username = _usernameController.text;
-    String password = _passwordController.text;
-
-    if (username == 'admin' && password == 'password') {
-      // Navigate to the home screen or perform any action on successful login.
-      print('Login successful');
-    } else {
-      // Display an error message or perform any action on failed login.
-      print('Login failed');
-    }
   }
 }
