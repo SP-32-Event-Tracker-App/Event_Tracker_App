@@ -1,3 +1,4 @@
+import 'package:event_tracker_app/widgets/forgot_password_page.dart';
 import 'package:event_tracker_app/widgets/home_page.dart';
 import 'package:event_tracker_app/widgets/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -114,8 +115,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Handle "Forgot Password" action
-                        print("Forgot Password");
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgotPasswordPage()));
                       },
                       child: const Text(
                         "Forgot Password?",
