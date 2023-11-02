@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class LoginController {
   bool login(String email, String password) {
-    if (email == 'steeve' && password == 'steeve') {
+    if (email == 'a' && password == 'a') {
       return true;
     }
     return false;

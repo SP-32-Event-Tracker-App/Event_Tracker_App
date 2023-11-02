@@ -1,16 +1,27 @@
+import 'package:event_tracker_app/widgets/event_detail_page.dart';
 import 'package:flutter/material.dart';
 
-class EventCard extends StatelessWidget {
+class EventCard extends StatefulWidget {
   const EventCard({super.key});
 
   @override
+  State<EventCard> createState() => _EventCardState();
+}
+
+class _EventCardState extends State<EventCard> {
+  bool isFavorite = false;
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const EventDetailPage()));
+      },
       child: SizedBox(
         width: 300,
-        height: 310,
+        height: 340,
         child: Card(
+          color: Colors.white,
           elevation: 4.0,
           margin: const EdgeInsets.all(16.0),
           shape: RoundedRectangleBorder(
@@ -21,69 +32,31 @@ class EventCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      height: 150,
-                      width: 252,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/background.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: Colors.white70,
-                              ),
-                              child: Column(children: [
-                                Text(
-                                  "10",
-                                  style: TextStyle(
-                                    color: Colors.red.shade300,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  "AUGUST",
-                                  style: TextStyle(
-                                    color: Colors.red.shade300,
-                                  ),
-                                ),
-                              ]),
-                            ),
-                            Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: Colors.white70,
-                              ),
-                              child: IconButton(
-                                icon: const Icon(Icons.bookmark),
-                                onPressed: () {
-                                  // Handle bookmark action
-                                },
-                                color: Colors.red.shade100,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                Container(
+                  height: 150,
+                  width: 252,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/background.jpg'),
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(height: 8),
-                Text("Senior Project Meeting Unlimited"),
+                Text(
+                  "Senior Project Meeting Unlimited",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Thu, Nov 02 * 5:00 - 6:15 PM",
+                  style: TextStyle(
+                    color: Colors.indigo.shade900,
+                  ),
+                ),
                 SizedBox(height: 8),
                 Row(
                   children: [
@@ -99,10 +72,21 @@ class EventCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Icon(Icons.location_on),
-                    Text("1044 Chastain Pointe, GA")
+                    Text("1044 Chastain Pointe, GA"),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isFavorite = !isFavorite;
+                        });
+                      },
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : null,
+                      ),
+                    )
                   ],
                 ),
               ],
